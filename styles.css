@@ -1,0 +1,280 @@
+/* 1. Use a more-intuitive box-sizing model */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* 2. Remove default margin */
+*:not(dialog) {
+  margin: 0;
+}
+
+/* 3. Enable keyword animations */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    interpolate-size: allow-keywords;
+  }
+}
+
+body {
+  /* 4. Increase line-height */
+  line-height: 1.5;
+  /* 5. Improve text rendering */
+  -webkit-font-smoothing: antialiased;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* 6. Improve media defaults */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* 7. Inherit fonts for form controls */
+input,
+button,
+textarea,
+select {
+  font: inherit;
+}
+
+/* 8. Avoid text overflows */
+p,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
+}
+
+/* 9. Improve line wrapping */
+p {
+  text-wrap: pretty;
+}
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  text-wrap: balance;
+}
+
+/*
+  10. Create a root stacking context
+*/
+#root,
+#__next {
+  isolation: isolate;
+}
+
+body {
+  letter-spacing: 0.1rem;
+  height: 100vh;
+  background: #020024;
+  background: linear-gradient(
+    360deg,
+    rgba(2, 0, 36, 1) 0%,
+    rgba(9, 9, 121, 1) 15%,
+    rgba(0, 212, 255, 1) 100%
+  );
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.archivo {
+  font-family: "Archivo Black", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.bebas {
+  font-family: "Bebas Neue", sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.black-ops {
+  font-family: "Black Ops One", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.big-text {
+  font-size: 5rem;
+}
+
+.board-container {
+  will-change: transform;
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  width: 30%;
+  height: 500px;
+  margin: auto;
+  padding: 1em;
+  opacity: 1;
+  transition: opacity 300ms ease-out 100ms;
+}
+
+.board-coordinate {
+  border: 1px solid black;
+  padding: 1rem;
+  cursor: pointer;
+  /* text-align: center; */
+  will-change: animation;
+}
+
+/* .board-coordinate:hover {
+  background-color: white;
+  transform: scale(1.05) rotate(10deg);
+} */
+
+@keyframes attack-hit {
+  0% {
+    background-color: blue;
+  }
+  100% {
+    background-color: #9c2007;
+  }
+}
+
+@keyframes attack-miss {
+  0% {
+    background-color: blue;
+  }
+  100% {
+    background-color: #fffff0;
+  }
+}
+
+.tile-occupied {
+  background-color: blue;
+  border: 0.2rem solid white;
+  border-radius: 0.2rem;
+}
+
+.tile-hit,
+.tile-hit:hover {
+  background-color: #9c2007;
+  border: 0.2rem solid black;
+  border-radius: 0.2rem;
+  animation: 1.5s attack-hit ease-in 1;
+}
+
+.tile-miss,
+.tile-miss:hover {
+  background-color: #fffff0;
+  border: 0.2rem solid black;
+  border-radius: 0.2rem;
+  animation: 1.5s attack-miss ease-in 1;
+}
+
+.disable {
+  cursor: not-allowed;
+}
+
+.board-title,
+.attacker-title {
+  text-align: center;
+}
+
+.winner-container {
+  text-align: center;
+  padding: 4rem;
+  margin: 1rem;
+  border: 3px solid black;
+  border-radius: 0.2rem;
+  justify-self: center;
+  box-shadow: rgb(38, 57, 77) 0px 20px 30px -10px;
+}
+
+.button-container {
+  margin: 0.3rem;
+  display: flex;
+  justify-content: center;
+}
+
+button {
+  font-size: 1.3rem;
+  padding: 0.5rem;
+  margin: 0.5rem;
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 0.2rem;
+  cursor: pointer;
+}
+
+button:hover {
+  transform: scale(1.05);
+}
+
+.header {
+  text-align: center;
+}
+
+.show {
+  animation: 300ms show ease-in;
+  display: grid;
+}
+
+.hide {
+  animation: 300ms hide ease-out;
+  display: none;
+}
+
+@keyframes show {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes hide {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.start-container {
+  display: flex;
+  justify-content: center;
+}
+
+#startGame {
+  will-change: transform;
+  font-size: 2rem;
+  padding: 1rem 1rem;
+  animation: 3s breathe ease-in-out infinite;
+}
+
+@keyframes breathe {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.4);
+  }
+
+  100% {
+    transform: scale(1);
+  }
+}
+
+.announcement {
+  text-align: center;
+  min-height: 2.5rem;
+}

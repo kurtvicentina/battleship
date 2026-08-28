@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=Bebas+Neue&family=Black+Ops+One&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+    <script type="module" src="game.js" defer></script>
+    <title>Battleship</title>
+  </head>
+  <body>
+    <h1 class="header black-ops big-text">BATTLESHIP</h1>
+    <div class="start-container">
+      <button type="button" id="friendButton">Play with friend</button>
+      <button type="button" id="computerButton">Play with computer</button>
+    </div>
+    <div class="announcement-container">
+      <h2 class="board-title"></h2>
+      <h2 class="attacker-title"></h2>
+      <h2 class="announcement" id="announcement"></h2>
+    </div>
+
+    <div class="button-container">
+      <button type="button" id="showAttackerBoardButton">
+        Show your board
+      </button>
+      <button type="button" id="showEnemyBoardButton">Show Enemy Board</button>
+    </div>
+  </body>
+</html>

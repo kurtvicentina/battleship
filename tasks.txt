@@ -1,0 +1,2 @@
+1. Computer player logic
+2. Ending result
