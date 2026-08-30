@@ -81,8 +81,8 @@ body {
   background: #020024;
   background: linear-gradient(
     360deg,
-    rgba(2, 0, 36, 1) 0%,
-    rgba(9, 9, 121, 1) 15%,
+    rgb(19, 19, 185) 0%,
+    rgb(18, 84, 216) 15%,
     rgba(0, 212, 255, 1) 100%
   );
   font-family: "Bebas Neue", sans-serif;
@@ -277,4 +277,18 @@ button:hover {
 .announcement {
   text-align: center;
   min-height: 2.5rem;
+  background-color: rgba(11, 122, 117, 0.1);
+  width: 20%;
+  padding: 0.2rem;
+  justify-self: center;
+  border-radius: 3rem;
+  font-weight: bold;
+}
+
+.hit {
+  color: rgb(25, 83, 95);
+}
+
+.missed {
+  color: rgb(123, 45, 38);
 }

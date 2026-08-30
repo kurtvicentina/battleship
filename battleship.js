@@ -99,7 +99,7 @@ function gameBoard() {
     console.log("hit");
 
     allShipsCoordinates[`${x}, ${y}`].hit();
-    allShipsAreSunk(allShips);
+    // allShipsAreSunk(allShips);
     return true;
   }
 
@@ -109,14 +109,16 @@ function gameBoard() {
       for (let ship of ships) {
         if (ship.isSunk() !== true) return allAreSunk;
       }
-
+      allAreSunk = true;
       showWinner();
-      return true;
+
+      return allAreSunk;
     }
     return allAreSunk;
   }
 
   return {
+    allShips,
     allShipsCoordinates,
     placeShipHorizontal,
     placeShipVertical,

@@ -1,5 +1,6 @@
 import {
-  playerTurn,
+  playerTurnWithComputer,
+  playerTurnWithPlayer,
   currentAttacker,
   currentBoard,
   currentAttackerBoard,
@@ -86,7 +87,7 @@ function createDomBoard(playerNum) {
   return newBoard;
 }
 
-function createTiles(player, board) {
+function createTiles(player, board, kindOfTurn) {
   for (let i = 0; i < 8; i++) {
     for (let k = 0; k < 8; k++) {
       let newTile = document.createElement("div");
@@ -101,10 +102,8 @@ function createTiles(player, board) {
           return;
 
         hitShipOnDom(e.target, player.receiveAttack(i, k));
-        hideShips(currentBoard);
-        playerTurn(currentAttacker);
+        kindOfTurn(currentAttacker);
         changeBoardTitle();
-        player.allShipsAreSunk();
       });
 
       board.append(newTile);
@@ -115,10 +114,14 @@ function createTiles(player, board) {
 function hitShipOnDom(tile, attack) {
   if (attack == true) {
     tile.classList.add("tile-hit", "disable");
+    annnouncement.classList.remove("missed");
+    annnouncement.classList.add("hit");
     annnouncement.textContent = "You hit an enemy ship";
     return;
   } else {
     tile.classList.add("tile-miss", "disable");
+    annnouncement.classList.remove("hit");
+    annnouncement.classList.add("missed");
     annnouncement.textContent = "You missed";
     return;
   }
@@ -168,4 +171,5 @@ export {
   showEnemyBoardButton,
   friendButton,
   computerButton,
+  annnouncement,
 };

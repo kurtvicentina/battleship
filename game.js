@@ -11,9 +11,11 @@ import {
   showEnemyBoardButton,
   friendButton,
   computerButton,
+  annnouncement,
 } from "./domMethods.js";
 
 let currentAttacker;
+let currentlyBombed;
 let currentBoard;
 let currentAttackerBoard;
 let player1;
@@ -27,6 +29,7 @@ let computerBoard;
 function loadScreen() {
   showAttackerBoardButton.style.display = "none";
   showEnemyBoardButton.style.display = "none";
+  annnouncement.style.display = "none";
   friendButton.addEventListener("click", gameStart);
   computerButton.addEventListener("click", computerGameStart);
 
@@ -34,7 +37,15 @@ function loadScreen() {
   computerButton.style.display = "block";
 }
 
+function endGame(cBombed) {
+  if (cBombed.allShipsAreSunk(cBombed.allShips)) return true;
+
+  return false;
+}
+
 function gameStart() {
+  friendButton.style.display = "none";
+  computerButton.style.display = "none";
   boardTitle.style.display = "block";
   attackerTitle.style.display = "block";
   showAttackerBoardButton.style.display = "block";
@@ -45,8 +56,8 @@ function gameStart() {
   player1Board = createDomBoard(1);
   player2Board = createDomBoard(2);
 
-  createTiles(player1, player1Board);
-  createTiles(player2, player2Board);
+  createTiles(player1, player1Board, playerTurnWithPlayer);
+  createTiles(player2, player2Board, playerTurnWithPlayer);
 
   player1.placeShipVertical(0, 0, 2, 1);
   player1.placeShipVertical(0, 3, 3, 1);
@@ -64,18 +75,19 @@ function gameStart() {
 
   attackerTitle.textContent = `Attacker is Player 1`;
   currentAttacker = player1;
+  currentlyBombed = player2;
   currentAttackerBoard = player1Board;
   currentBoard = player2Board;
-  currentAttackerBoard.style.display = "none";
 
   hideBoard(player1Board);
   hideShips(player2Board);
 
-  friendButton.style.display = "none";
   changeBoardTitle();
 }
 
 function computerGameStart() {
+  friendButton.style.display = "none";
+  computerButton.style.display = "none";
   boardTitle.style.display = "block";
   attackerTitle.style.display = "block";
   showAttackerBoardButton.style.display = "block";
@@ -87,24 +99,23 @@ function computerGameStart() {
   player1Board = createDomBoard(1);
   computerBoard = createDomBoard(3);
 
-  createTiles(player1, player1Board);
-  createTiles(computer, computerBoard);
+  createTiles(player1, player1Board, playerTurnWithComputer);
+  createTiles(computer, computerBoard, playerTurnWithComputer);
 
   player1.placeShipVertical(0, 0, 2, 1);
   player1.placeShipVertical(0, 3, 3, 1);
 
   computer.placeShipHorizontal(0, 1, 2, 3);
 
-  // attackerTitle.textContent = `Attacker is Player 1`;
+  attackerTitle.textContent = `Attacker is Player 1`;
   currentAttacker = player1;
+  currentlyBombed = computer;
   currentAttackerBoard = player1Board;
   currentBoard = computerBoard;
-  // currentAttackerBoard.style.display = "none";
 
   hideBoard(player1Board);
   hideShips(computerBoard);
 
-  computerButton.style.display = "none";
   changeBoardTitle();
 }
 
@@ -114,11 +125,32 @@ function changeTurn(currAttackerBoard, currBoard) {
   currentAttackerBoard = currAttackerBoard;
   currentBoard = currBoard;
   changeBoardTitle();
-  // attackerTitle.textContent = `Attacker is Player 2`;
 }
 
-function playerTurn(cAttacker) {
+function playerTurnWithPlayer(cAttacker) {
+  attackerTitle.textContent = `Attacker is the Player 1`;
   if (cAttacker == player1) {
+    if (endGame(currentlyBombed)) return;
+    setTimeout(() => {
+      changeTurn(player2Board, player1Board);
+    }, 2000);
+    currentAttacker = player2;
+    currentlyBombed = player1;
+  }
+  if (cAttacker == player2) {
+    setTimeout(() => {
+      changeTurn(player1Board, player2Board);
+      return;
+    }, 2000);
+    currentAttacker = player1;
+    currentlyBombed = player2;
+  }
+}
+
+function playerTurnWithComputer(cAttacker) {
+  attackerTitle.textContent = `Attacker is the Computer`;
+  if (cAttacker == player1) {
+    if (endGame(currentlyBombed)) return;
     setTimeout(() => {
       changeTurn(computerBoard, player1Board);
       setTimeout(() => {
@@ -130,33 +162,25 @@ function playerTurn(cAttacker) {
       }, 1500);
     }, 2000);
     currentAttacker = computer;
-  }
-  if (cAttacker == player2) {
-    setTimeout(() => {
-      hideBoard(player1Board);
-      hideShips(player2Board);
-      currentAttacker = player1;
-      currentAttackerBoard = player1Board;
-      currentBoard = player2Board;
-      changeBoardTitle();
-      attackerTitle.textContent = `Attacker is Player 1`;
-      return;
-    }, 2000);
+    currentlyBombed = player1;
   }
 
   if (cAttacker == computer) {
+    attackerTitle.textContent = `Attacker is Player 1`;
+    if (endGame(currentlyBombed)) return;
     setTimeout(() => {
       changeTurn(player1Board, computerBoard);
       return;
     }, 2000);
     currentAttacker = player1;
+    currentlyBombed = computer;
   }
 }
-
 loadScreen();
 
 export {
-  playerTurn,
+  playerTurnWithComputer,
+  playerTurnWithPlayer,
   currentAttacker,
   currentBoard,
   currentAttackerBoard,

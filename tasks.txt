@@ -1,2 +1,1 @@
-1. Computer player logic
-2. Ending result
+1. Create pre-placed array of ship coordinates for players and computer
