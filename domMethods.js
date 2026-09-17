@@ -8,9 +8,17 @@ import {
 } from "./game.js";
 
 const body = document.querySelector("body");
+const main = document.querySelector(".main");
 const boardTitle = document.querySelector(".board-title");
 const attackerTitle = document.querySelector(".attacker-title");
 const annnouncement = document.querySelector("#announcement");
+const annnouncementContainer = document.querySelector(
+  ".announcement-container",
+);
+const battleshipImg = document.querySelector("#battleship");
+const shipContainer = document.querySelector(".ship-placement-container");
+
+const draggableShips = document.querySelectorAll(".ship-container");
 
 const showAttackerBoardButton = document.querySelector(
   "#showAttackerBoardButton",
@@ -35,12 +43,12 @@ function showAttackerBoard() {
     );
     occupied.classList.add("tile-occupied");
   }
-  const allTilesOfAttacker =
-    currentAttackerBoard.querySelectorAll(".board-coordinate");
+  // const allTilesOfAttacker =
+  //   currentAttackerBoard.querySelectorAll(".board-coordinate");
 
-  for (let tile of allTilesOfAttacker) {
-    tile.classList.add("disable");
-  }
+  // for (let tile of allTilesOfAttacker) {
+  //   tile.classList.add("disable");
+  // }
 
   hideBoard(currentBoard);
   showBoard(currentAttackerBoard);
@@ -82,7 +90,7 @@ function createDomBoard(playerNum) {
   const newBoard = document.createElement("div");
   newBoard.classList.add("board-container");
   newBoard.dataset.boardNum = playerNum;
-  body.append(newBoard);
+  main.append(newBoard);
 
   return newBoard;
 }
@@ -92,7 +100,7 @@ function createTiles(player, board, kindOfTurn) {
     for (let k = 0; k < 8; k++) {
       let newTile = document.createElement("div");
       newTile.classList.add("board-coordinate");
-      newTile.dataset.tileCoor = `${i}, ${k}`;
+      newTile.dataset.tileCoor = new Array(`${i}${k}`);
       newTile.addEventListener("click", (e) => {
         if (player === currentAttacker) return;
         if (
@@ -105,6 +113,10 @@ function createTiles(player, board, kindOfTurn) {
         kindOfTurn(currentAttacker);
         changeBoardTitle();
       });
+      newTile.addEventListener("dragover", (e) => {
+        e.preventDefault();
+      });
+      newTile.addEventListener("drop", dropHandler);
 
       board.append(newTile);
     }
@@ -130,6 +142,7 @@ function hitShipOnDom(tile, attack) {
 function showWinner() {
   currentAttackerBoard.style.display = "none";
   currentBoard.style.display = "none";
+  annnouncement.style.display = "none";
   showAttackerBoardButton.style.display = "none";
   showEnemyBoardButton.style.display = "none";
   boardTitle.style.display = "none";
@@ -155,6 +168,49 @@ function showWinner() {
 
   body.append(winnerContainer);
 }
+draggableShips.forEach((ship) => {
+  ship.addEventListener("dragstart", (e) => {
+    ship.id = "dragged-ship";
+    e.dataTransfer.effectAllowed = "move";
+    e.dataTransfer.setData("ship", "");
+    console.log(e.target);
+  });
+
+  ship.addEventListener("dragend", (e) => {
+    ship.removeAttribute("id");
+  });
+});
+
+function dropHandler(e) {
+  const draggedShip = document.querySelector("#dragged-ship");
+  if (e.dataTransfer.types.includes("ship")) {
+    e.preventDefault();
+  }
+  const parentBoard = e.target.parentElement;
+  const column = e.target.dataset.tileCoor[0];
+
+  let clickedTile = parentBoard.querySelector(
+    `[data-tile-coor="${e.target.dataset.tileCoor}"]`,
+  );
+  console.log(clickedTile.dataset.tileCoor);
+
+  const shipLength = draggedShip.children.length;
+  draggedShip.remove();
+
+  for (let i = 1; i <= shipLength; i++) {
+    clickedTile.classList.add("tile-occupied");
+
+    let advance = Number(e.target.dataset.tileCoor[1]) + i;
+
+    clickedTile = parentBoard.querySelector(
+      `[data-tile-coor="${column}${advance}"]`,
+    );
+
+    console.log(clickedTile.dataset.tileCoor);
+  }
+
+  console.log(clickedTile.dataset.tileCoor);
+}
 
 export {
   createDomBoard,
@@ -172,4 +228,7 @@ export {
   friendButton,
   computerButton,
   annnouncement,
+  battleshipImg,
+  shipContainer,
+  annnouncementContainer,
 };

@@ -59,7 +59,7 @@ function gameBoard() {
     return false;
   }
 
-  function placeShipHorizontal(x, y, length, playerNum) {
+  function placeShipHorizontal(x, y, length) {
     //x are the values horizontally, while y are the values vertically
 
     if (!isOutOfBounds([y, x + length]) && !isCoorOccupied([x, y], length)) {
@@ -69,19 +69,17 @@ function gameBoard() {
       // increments so that the ship is placed horizontally
       for (let i = 0; i < length; i++) {
         allShipsCoordinates[`${y}, ${x}`] = newShip;
-        // placeShipOnDom(playerNum, `${y}, ${x}`);
         x++;
       }
     }
   }
 
-  function placeShipVertical(x, y, length, playerNum) {
+  function placeShipVertical(x, y, length) {
     if (!isOutOfBounds([x, y + length]) && !allShipsCoordinates[`${y}, ${x}`]) {
       const newShip = ship(length);
       allShips.push(newShip);
       for (let i = 0; i < length; i++) {
         allShipsCoordinates[`${y}, ${x}`] = newShip;
-        // placeShipOnDom(playerNum, `${y}, ${x}`);
         y++;
       }
     }
@@ -154,7 +152,7 @@ function computerMove() {
 
       return newMove;
     }
-    return false;
+    return validMove();
   }
 
   return validMove();
